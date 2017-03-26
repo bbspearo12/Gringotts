@@ -1,5 +1,12 @@
-# gringotts
-This application was generated using JHipster 4.0.8, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v4.0.8](https://jhipster.github.io/documentation-archive/v4.0.8).
+# Gringotts
+Gringotts is a Asset repository that will manage assets. Assets can be related to Service providers, contracts and contarct owners.
+
+It allows input of assets manually (aka filling out forms) or via upload of CSV file. Sample CSV format is as below:
+
+```
+OEM	Model	Serial Number*	Type	Contract*	Name*	Address Line 1*	City*	State*	Zip*	PrimaryContact*	PhoneNumber*	Email*	Start Date*	End Date*	Coverage Plan*	Service Vendor*	Vendor* Contact Number*
+```
+`* Required`
 
 ## Development
 
