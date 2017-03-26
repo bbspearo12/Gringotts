@@ -1,0 +1,48 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "contract",
+            "otherEntityName": "contract",
+            "otherEntityField": "contractNumber",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "asset"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "provider",
+            "otherEntityName": "provider",
+            "otherEntityField": "provider",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "asset"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "serialNumber",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "oEM",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modelNumber",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "AssetType",
+            "fieldValues": "SERVER,STORAGE,NETWORK,RAIDCONTROLLER,SSD,HBA,TAPELIBRARY,SFP"
+        }
+    ],
+    "changelogDate": "20170315164537",
+    "entityTableName": "asset",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no"
+}

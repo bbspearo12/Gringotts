@@ -1,0 +1,43 @@
+
+<div>
+    <h2><span>Asset</span> {{vm.asset.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Serial Number</span></dt>
+        <dd>
+            <span>{{vm.asset.serialNumber}}</span>
+        </dd>
+        <dt><span>O EM</span></dt>
+        <dd>
+            <span>{{vm.asset.oEM}}</span>
+        </dd>
+        <dt><span>Model Number</span></dt>
+        <dd>
+            <span>{{vm.asset.modelNumber}}</span>
+        </dd>
+        <dt><span>Type</span></dt>
+        <dd>
+            <span>{{vm.asset.type}}</span>
+        </dd>
+        <dt><span>Contract</span></dt>
+        <dd>
+            <a ui-sref="contract-detail({id:vm.asset.contract.id})">{{vm.asset.contract.contractNumber}}</a>
+        </dd>
+        <dt><span>Provider</span></dt>
+        <dd>
+            <a ui-sref="provider-detail({id:vm.asset.provider.id})">{{vm.asset.provider.provider}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="asset-detail.edit({id:vm.asset.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>

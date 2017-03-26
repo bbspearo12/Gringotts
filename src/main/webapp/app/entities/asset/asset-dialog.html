@@ -1,0 +1,75 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myAssetLabel">Create or edit a Asset</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.asset.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.asset.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_serialNumber">Serial Number</label>
+            <input type="text" class="form-control" name="serialNumber" id="field_serialNumber"
+                    ng-model="vm.asset.serialNumber"
+                    required/>
+            <div ng-show="editForm.serialNumber.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.serialNumber.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_oEM">O EM</label>
+            <input type="text" class="form-control" name="oEM" id="field_oEM"
+                    ng-model="vm.asset.oEM"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_modelNumber">Model Number</label>
+            <input type="text" class="form-control" name="modelNumber" id="field_modelNumber"
+                    ng-model="vm.asset.modelNumber"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_type">Type</label>
+            <select class="form-control" name="type" ng-model="vm.asset.type" id="field_type">
+                <option value="SERVER">SERVER</option>
+                <option value="STORAGE">STORAGE</option>
+                <option value="NETWORK">NETWORK</option>
+                <option value="RAIDCONTROLLER">RAIDCONTROLLER</option>
+                <option value="SSD">SSD</option>
+                <option value="HBA">HBA</option>
+                <option value="TAPELIBRARY">TAPELIBRARY</option>
+                <option value="SFP">SFP</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="field_contract">Contract</label>
+            <select class="form-control" id="field_contract" name="contract" ng-model="vm.asset.contract" ng-options="contract as contract.contractNumber for contract in vm.contracts | orderBy:'id' track by contract.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="field_provider">Provider</label>
+            <select class="form-control" id="field_provider" name="provider" ng-model="vm.asset.provider" ng-options="provider as provider.provider for provider in vm.providers | orderBy:'id' track by provider.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

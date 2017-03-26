@@ -1,0 +1,19 @@
+version: '2'
+services:
+    gringotts-app:
+        image: gringotts
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_DATASOURCE_URL=jdbc:mysql://gringotts-mysql:3306/gringotts?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=gringotts-elasticsearch:9300
+        ports:
+            - 8080:8080
+    gringotts-mysql:
+        extends:
+            file: mysql.yml
+            service: gringotts-mysql
+    gringotts-elasticsearch:
+        extends:
+            file: elasticsearch.yml
+            service: gringotts-elasticsearch

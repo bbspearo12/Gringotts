@@ -1,0 +1,88 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myContractLabel">Create or edit a Contract</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.contract.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.contract.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_contractNumber">Contract Number</label>
+            <input type="text" class="form-control" name="contractNumber" id="field_contractNumber"
+                    ng-model="vm.contract.contractNumber"
+                    required/>
+            <div ng-show="editForm.contractNumber.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.contractNumber.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_startOfContract">Start Of Contract</label>
+                <div class="input-group">
+                    <input id="field_startOfContract" type="text" class="form-control" name="startOfContract" uib-datepicker-popup="{{dateformat}}" ng-model="vm.contract.startOfContract" is-open="vm.datePickerOpenStatus.startOfContract"
+                    required/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('startOfContract')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+            <div ng-show="editForm.startOfContract.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.startOfContract.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_endOfContract">End Of Contract</label>
+                <div class="input-group">
+                    <input id="field_endOfContract" type="text" class="form-control" name="endOfContract" uib-datepicker-popup="{{dateformat}}" ng-model="vm.contract.endOfContract" is-open="vm.datePickerOpenStatus.endOfContract"
+                    required/>
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('endOfContract')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+            <div ng-show="editForm.endOfContract.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.endOfContract.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_coveragePlan">Coverage Plan</label>
+            <input type="text" class="form-control" name="coveragePlan" id="field_coveragePlan"
+                    ng-model="vm.contract.coveragePlan"
+                    required/>
+            <div ng-show="editForm.coveragePlan.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.coveragePlan.$error.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="field_company">Company</label>
+            <select class="form-control" id="field_company" name="company" ng-model="vm.contract.company" ng-options="company as company.name for company in vm.companies | orderBy:'id' track by company.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

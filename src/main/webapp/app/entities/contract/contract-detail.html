@@ -1,0 +1,39 @@
+
+<div>
+    <h2><span>Contract</span> {{vm.contract.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Contract Number</span></dt>
+        <dd>
+            <span>{{vm.contract.contractNumber}}</span>
+        </dd>
+        <dt><span>Start Of Contract</span></dt>
+        <dd>
+            <span>{{vm.contract.startOfContract | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span>End Of Contract</span></dt>
+        <dd>
+            <span>{{vm.contract.endOfContract | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span>Coverage Plan</span></dt>
+        <dd>
+            <span>{{vm.contract.coveragePlan}}</span>
+        </dd>
+        <dt><span>Company</span></dt>
+        <dd>
+            <a ui-sref="company-detail({id:vm.contract.company.id})">{{vm.contract.company.name}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button" ui-sref="contract-detail.edit({id:vm.contract.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down"> Edit</span>
+    </button>
+</div>
