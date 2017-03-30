@@ -143,6 +143,6 @@ public class ProviderResource {
             .stream(providerSearchRepository.search(queryStringQuery(query)).spliterator(), false)
             .collect(Collectors.toList());
     }
-
+     
 
 }

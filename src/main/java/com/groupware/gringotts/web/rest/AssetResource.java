@@ -2,13 +2,26 @@ package com.groupware.gringotts.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.groupware.gringotts.domain.Asset;
-
+import com.groupware.gringotts.domain.Company;
+import com.groupware.gringotts.domain.Contract;
+import com.groupware.gringotts.domain.Provider;
 import com.groupware.gringotts.repository.AssetRepository;
+import com.groupware.gringotts.repository.CompanyRepository;
+import com.groupware.gringotts.repository.ContractRepository;
+import com.groupware.gringotts.repository.ProviderRepository;
 import com.groupware.gringotts.repository.search.AssetSearchRepository;
+import com.groupware.gringotts.repository.search.CompanySearchRepository;
+import com.groupware.gringotts.repository.search.ContractSearchRepository;
+import com.groupware.gringotts.repository.search.ProviderSearchRepository;
 import com.groupware.gringotts.web.rest.util.HeaderUtil;
 import com.groupware.gringotts.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
+
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -43,9 +56,32 @@ public class AssetResource {
 
     private final AssetSearchRepository assetSearchRepository;
 
-    public AssetResource(AssetRepository assetRepository, AssetSearchRepository assetSearchRepository) {
+    // TODO remove from here 
+    private final ProviderRepository providerRepository;
+    private final ProviderSearchRepository providerSearchRepository;
+    private final CompanyRepository companyRepository;
+    private final CompanySearchRepository companySearchRepository;
+    private final ContractRepository contractRepository;
+    private final ContractSearchRepository contractSearchRepository;
+    
+    //TODO to here
+    
+    public AssetResource(AssetRepository assetRepository, 
+    		AssetSearchRepository assetSearchRepository,
+    		ProviderRepository providerRepository, 
+    		ProviderSearchRepository providerSearchRepository,
+    		CompanyRepository companyRepository, 
+    		CompanySearchRepository companySearchRepository,
+    		ContractRepository contractRepository, 
+    		ContractSearchRepository contractSearchRepository) {
         this.assetRepository = assetRepository;
         this.assetSearchRepository = assetSearchRepository;
+        this.providerRepository = providerRepository;
+        this.providerSearchRepository = providerSearchRepository;
+        this.companyRepository = companyRepository;
+        this.companySearchRepository = companySearchRepository;
+        this.contractRepository = contractRepository;
+        this.contractSearchRepository = contractSearchRepository;
     }
 
     /**
@@ -155,5 +191,85 @@ public class AssetResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
-
+    @PostMapping("/bulk/upload")
+    @Timed
+    public String bulkUpload(@RequestBody String json) throws URISyntaxException {
+        log.debug("REST request to bulk uplaod : {}", json);
+        try {
+        	JSONArray jarray =  new JSONArray(json);
+			if (jarray.length() == 0) {
+				return "Empty input. Please verify input";
+			}
+			 log.debug("Got: {}", jarray);
+			 for (int i=0; i<jarray.length(); i++) {
+				 JSONObject jobj = (JSONObject) jarray.get(i);
+				 //log.debug("OEM is {}", jobj.getString("OEM"));
+				 Provider p = getOrCreateProvider(jobj);
+				 log.debug("provider id {}", p.getId());
+				 Company c = getOrCreateCompany(jobj);
+				 log.debug("company id {}", c.getId());
+			 }
+		} catch (JSONException e) {
+			log.error(e.getMessage());
+			return "Failed to parse input. Please verify csv";
+		}
+        return json;
+    }
+    
+    
+    public Provider getOrCreateContract(JSONObject jobj, String cid) throws JSONException {
+    	String contract = BulkResource.getContract(jobj);
+		 log.debug("contract is {}", contract);
+		 Contract p = BulkResource.getContractByNumber(contract, contractRepository);
+		 if (p == null) {
+			 log.debug("Need to create contract {}", contract);
+			 String phone = BulkResource.getContractStart(jobj);
+			 p = BulkResource.createContract(contract, 
+					 phone, 
+					 phone, 
+					 this.contractRepository, 
+					 this.contractSearchRepository);
+		 }
+		 return p;
+    }
+    
+    
+    public Provider getOrCreateProvider(JSONObject jobj) throws JSONException {
+    	String sv = BulkResource.getProviderName(jobj);
+		 log.debug("sv is {}", sv);
+		 Provider p = BulkResource.getProviderByName(sv, this.providerRepository);
+		 if (p == null) {
+			 log.debug("Need to create sv {}", sv);
+			 String phone = BulkResource.getProviderPhone(jobj);
+			 p = BulkResource.createProvider(sv, phone, phone, this.providerRepository, this.providerSearchRepository);
+		 }
+		 return p;
+    }
+    
+    public Company getOrCreateCompany(JSONObject jobj) throws JSONException {
+    	String cname = BulkResource.getCompanyName(jobj);
+		 log.debug("cname is {}", cname);
+		 Company c = BulkResource.getCompanyByName(cname, companyRepository);
+		 if (c == null) {
+			 log.debug("Need to create company {}", cname);
+			 String al1 = BulkResource.getCompanyAL1(jobj);
+			 String city = BulkResource.getCompanyCity(jobj);
+			 String state = BulkResource.getCompanyState(jobj);
+			 String phno = BulkResource.getCompanyPrimaryPhone(jobj);
+			 String zip = BulkResource.getCompanyZip(jobj);
+			 String pcontact = BulkResource.getCompanyPrimaryContact(jobj);
+			 String email = BulkResource.getCompanyEmail(jobj);
+			 c = BulkResource.createCompany(cname, 
+					 al1, 
+					 city, 
+					 state,
+					 phno,
+					 zip,
+					 pcontact,
+					 email,
+					 companyRepository, companySearchRepository);
+		 }
+		 return c;
+    }
+   
 }
