@@ -51,28 +51,28 @@ public class AssetResource {
     private final Logger log = LoggerFactory.getLogger(AssetResource.class);
 
     private static final String ENTITY_NAME = "asset";
-        
+
     private final AssetRepository assetRepository;
 
     private final AssetSearchRepository assetSearchRepository;
 
-    // TODO remove from here 
+    // TODO remove from here
     private final ProviderRepository providerRepository;
     private final ProviderSearchRepository providerSearchRepository;
     private final CompanyRepository companyRepository;
     private final CompanySearchRepository companySearchRepository;
     private final ContractRepository contractRepository;
     private final ContractSearchRepository contractSearchRepository;
-    
+
     //TODO to here
-    
-    public AssetResource(AssetRepository assetRepository, 
+
+    public AssetResource(AssetRepository assetRepository,
     		AssetSearchRepository assetSearchRepository,
-    		ProviderRepository providerRepository, 
+    		ProviderRepository providerRepository,
     		ProviderSearchRepository providerSearchRepository,
-    		CompanyRepository companyRepository, 
+    		CompanyRepository companyRepository,
     		CompanySearchRepository companySearchRepository,
-    		ContractRepository contractRepository, 
+    		ContractRepository contractRepository,
     		ContractSearchRepository contractSearchRepository) {
         this.assetRepository = assetRepository;
         this.assetSearchRepository = assetSearchRepository;
@@ -177,7 +177,7 @@ public class AssetResource {
      * SEARCH  /_search/assets?query=:query : search for the asset corresponding
      * to the query.
      *
-     * @param query the query of the asset search 
+     * @param query the query of the asset search
      * @param pageable the pagination information
      * @return the result of the search
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
@@ -208,6 +208,10 @@ public class AssetResource {
 				 log.debug("provider id {}", p.getId());
 				 Company c = getOrCreateCompany(jobj);
 				 log.debug("company id {}", c.getId());
+				 Contract co = getOrCreateContract(jobj, c);
+                 log.debug("contract id {}", co.getId());
+                 Asset a = getOrCreateAsset(jobj, co, p);
+                 log.debug("asset serial {}", a.getSerialNumber());
 			 }
 		} catch (JSONException e) {
 			log.error(e.getMessage());
@@ -215,25 +219,50 @@ public class AssetResource {
 		}
         return json;
     }
-    
-    
-    public Provider getOrCreateContract(JSONObject jobj, String cid) throws JSONException {
-    	String contract = BulkResource.getContract(jobj);
-		 log.debug("contract is {}", contract);
-		 Contract p = BulkResource.getContractByNumber(contract, contractRepository);
+
+
+    public Asset getOrCreateAsset(JSONObject jobj, Contract co, Provider p) throws JSONException {
+        String assetSerial = BulkResource.getSerial(jobj);
+        log.debug("Asset serial is {}", assetSerial);
+        Asset asset = BulkResource.getAssetBySerial(assetSerial, assetRepository);
+        if (p == null) {
+            log.debug("Need to create Asset {}", assetSerial);
+            String modelNumber = BulkResource.getModel(jobj);
+            String oem = BulkResource.getOEM(jobj);
+            String type = BulkResource.getType(jobj);
+            asset = BulkResource.createAsset(assetSerial,
+                modelNumber,
+                oem,
+                type,
+                co,
+                p,
+                assetRepository,
+                assetSearchRepository);
+        }
+        return asset;
+    }
+
+    public Contract getOrCreateContract(JSONObject jobj, Company c) throws JSONException {
+    	String contractid = BulkResource.getContractID(jobj);
+		 log.debug("contract is {}", contractid);
+		 Contract p = BulkResource.getContractByNumber(contractid, contractRepository);
 		 if (p == null) {
-			 log.debug("Need to create contract {}", contract);
-			 String phone = BulkResource.getContractStart(jobj);
-			 p = BulkResource.createContract(contract, 
-					 phone, 
-					 phone, 
-					 this.contractRepository, 
-					 this.contractSearchRepository);
+			 log.debug("Need to create contract {}", contractid);
+			 String startDate = BulkResource.getContractStart(jobj);
+             String endDate = BulkResource.getContractEnd(jobj);
+             String coveragePlan = BulkResource.getContractCoveragePlan(jobj);
+			 p = BulkResource.createContract(contractid,
+                 startDate,
+                 endDate,
+                 coveragePlan,
+                 c,
+                 this.contractRepository,
+                 this.contractSearchRepository);
 		 }
 		 return p;
     }
-    
-    
+
+
     public Provider getOrCreateProvider(JSONObject jobj) throws JSONException {
     	String sv = BulkResource.getProviderName(jobj);
 		 log.debug("sv is {}", sv);
@@ -245,7 +274,7 @@ public class AssetResource {
 		 }
 		 return p;
     }
-    
+
     public Company getOrCreateCompany(JSONObject jobj) throws JSONException {
     	String cname = BulkResource.getCompanyName(jobj);
 		 log.debug("cname is {}", cname);
@@ -259,9 +288,9 @@ public class AssetResource {
 			 String zip = BulkResource.getCompanyZip(jobj);
 			 String pcontact = BulkResource.getCompanyPrimaryContact(jobj);
 			 String email = BulkResource.getCompanyEmail(jobj);
-			 c = BulkResource.createCompany(cname, 
-					 al1, 
-					 city, 
+			 c = BulkResource.createCompany(cname,
+					 al1,
+					 city,
 					 state,
 					 phno,
 					 zip,
@@ -271,5 +300,5 @@ public class AssetResource {
 		 }
 		 return c;
     }
-   
+
 }
