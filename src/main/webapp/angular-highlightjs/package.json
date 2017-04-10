@@ -1,0 +1,101 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "angular-highlightjs",
+        "scope": null,
+        "escapedName": "angular-highlightjs",
+        "name": "angular-highlightjs",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/cmutgi/gringotts"
+    ]
+  ],
+  "_from": "angular-highlightjs@latest",
+  "_id": "angular-highlightjs@0.7.1",
+  "_inCache": true,
+  "_location": "/angular-highlightjs",
+  "_nodeVersion": "6.9.4",
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/angular-highlightjs-0.7.1.tgz_1488272920442_0.3833464353810996"
+  },
+  "_npmUser": {
+    "name": "pc035860",
+    "email": "pc035860@gmail.com"
+  },
+  "_npmVersion": "3.10.10",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "angular-highlightjs",
+    "scope": null,
+    "escapedName": "angular-highlightjs",
+    "name": "angular-highlightjs",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/angular-highlightjs/-/angular-highlightjs-0.7.1.tgz",
+  "_shasum": "d7e0e1f59db4de63f00573218a6472a59ff183f4",
+  "_shrinkwrap": null,
+  "_spec": "angular-highlightjs",
+  "_where": "/Users/cmutgi/gringotts",
+  "author": {
+    "name": "Chih-Hsuan Fan",
+    "email": "pc035860@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/pc035860/angular-highlightjs/issues"
+  },
+  "dependencies": {
+    "angular": "^1.0.1",
+    "highlight.js": ">7.0.0"
+  },
+  "description": "AngularJS directive for syntax highlighting with highlight.js",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-connect": "^0.9.0",
+    "grunt-contrib-copy": "^0.7.0",
+    "grunt-contrib-jshint": "^0.11.0",
+    "grunt-contrib-uglify": "^0.7.0",
+    "grunt-contrib-watch": "^0.6.0",
+    "grunt-ng-annotate": "^1.0.1"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "d7e0e1f59db4de63f00573218a6472a59ff183f4",
+    "tarball": "https://registry.npmjs.org/angular-highlightjs/-/angular-highlightjs-0.7.1.tgz"
+  },
+  "gitHead": "d2bd0030dc43cb0e32d49dc17712d509167156b6",
+  "homepage": "https://github.com/pc035860/angular-highlightjs#readme",
+  "keywords": [
+    "angularjs",
+    "highlight.js",
+    "angular-highlightjs"
+  ],
+  "license": "MIT",
+  "main": "./build/angular-highlightjs.js",
+  "maintainers": [
+    {
+      "name": "pc035860",
+      "email": "pc035860@gmail.com"
+    }
+  ],
+  "name": "angular-highlightjs",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pc035860/angular-highlightjs.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.7.1"
+}
