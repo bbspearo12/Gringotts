@@ -42,7 +42,6 @@ public class Contract implements Serializable {
     private String coveragePlan;
 
     @OneToOne
-    @JoinColumn(unique = true)
     private Company company;
 
     public Long getId() {

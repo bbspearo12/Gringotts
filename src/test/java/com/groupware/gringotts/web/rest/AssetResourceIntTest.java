@@ -76,7 +76,7 @@ public class AssetResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        AssetResource assetResource = new AssetResource(assetRepository, assetSearchRepository, null, null);
+        AssetResource assetResource = new AssetResource(assetRepository, assetSearchRepository, null, null, null, null, null, null);
         this.restAssetMockMvc = MockMvcBuilders.standaloneSetup(assetResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

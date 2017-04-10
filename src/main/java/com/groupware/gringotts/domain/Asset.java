@@ -41,11 +41,11 @@ public class Asset implements Serializable {
     private AssetType type;
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn
     private Contract contract;
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn
     private Provider provider;
 
     public Long getId() {

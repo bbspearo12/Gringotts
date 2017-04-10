@@ -1,0 +1,30 @@
+
+<div class="block row">
+  <div class="title"><h4>Select your CSV file: </h4></div>
+  <div class="block right">
+    <ng-csv-import md-colors="{color:black}" 
+      class="import"
+      content="csv.content"
+      header="csv.header" 
+      header-visible="csv.headerVisible" 
+      separator="csv.separator"
+      separator-visible="csv.separatorVisible"
+      result="csv.result"
+      encoding="csv.encoding"
+      encoding-visible="csv.encodingVisible"
+      upload-button-label="csv.uploadButtonLabel"></ng-csv-import>
+  </div>
+</div> 
+
+<div ng-if="csv.result" class="block left">
+ <h2>Validate CSV</h2>
+ <div class="content" hljs source="toPrettyJSON(csv.result, 3)"></div>
+</div>
+
+<div ng-if="csv.result" class="block left">
+<h2> Upload CSV </h2>
+<button class="btn btn-primary" ng-click="bulkUpload(csv.result)">upload
+</button>
+<div>{{returned_data}}</div>
+</div>
+

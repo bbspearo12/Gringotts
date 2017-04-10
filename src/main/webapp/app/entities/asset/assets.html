@@ -35,9 +35,8 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
-                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="serialNumber"><span>Serial Number</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="oEM"><span>O EM</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="oEM"><span>OEM</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="modelNumber"><span>Model Number</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="type"><span>Type</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="contract.contractNumber"><span>Contract</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -47,8 +46,8 @@
             </thead>
             <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
                 <tr ng-repeat="asset in vm.assets track by asset.id">
-                    <td><a ui-sref="asset-detail({id:asset.id})">{{asset.id}}</a></td>
-                    <td>{{asset.serialNumber}}</td>
+                    
+                    <td><a ui-sref="asset-detail({id:asset.id})">{{asset.serialNumber}}</a></td>
                     <td>{{asset.oEM}}</td>
                     <td>{{asset.modelNumber}}</td>
                     <td>{{asset.type}}</td>

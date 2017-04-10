@@ -35,7 +35,6 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr>
-                    <th><span>ID</span></th>
                     <th><span>Contract Number</span></th>
                     <th><span>Start Of Contract</span></th>
                     <th><span>End Of Contract</span></th>
@@ -46,8 +45,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="contract in vm.contracts track by contract.id">
-                    <td><a ui-sref="contract-detail({id:contract.id})">{{contract.id}}</a></td>
-                    <td>{{contract.contractNumber}}</td>
+                    <td><a ui-sref="contract-detail({id:contract.id})">{{contract.contractNumber}}</a></td>
                         <td>{{contract.startOfContract | date:'mediumDate'}}</td>
                         <td>{{contract.endOfContract | date:'mediumDate'}}</td>
                     <td>{{contract.coveragePlan}}</td>

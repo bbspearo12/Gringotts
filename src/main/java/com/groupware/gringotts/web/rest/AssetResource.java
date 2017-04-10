@@ -193,17 +193,22 @@ public class AssetResource {
 
     @PostMapping("/bulk/upload")
     @Timed
-    public String bulkUpload(@RequestBody String json) throws URISyntaxException {
+    public ResponseEntity bulkUpload(@RequestBody String json) throws URISyntaxException, JSONException {
         log.debug("REST request to bulk uplaod : {}", json);
+    	JSONObject reponse = new JSONObject();
         try {
         	JSONArray jarray =  new JSONArray(json);
 			if (jarray.length() == 0) {
-				return "Empty input. Please verify input";
+	            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "EmptyBody", "A bulk upload cannot empyt body")).body("A bulk upload cannot empty body");
 			}
 			 log.debug("Got: {}", jarray);
 			 for (int i=0; i<jarray.length(); i++) {
 				 JSONObject jobj = (JSONObject) jarray.get(i);
-				 //log.debug("OEM is {}", jobj.getString("OEM"));
+				 String assetSerial = BulkResource.getSerial(jobj);
+				 if (assetSerial == null || assetSerial.length() == 0) {
+					 log.debug("This line is empty, skipping {}", jobj);
+					 continue;
+				 }
 				 Provider p = getOrCreateProvider(jobj);
 				 log.debug("provider id {}", p.getId());
 				 Company c = getOrCreateCompany(jobj);
@@ -213,11 +218,13 @@ public class AssetResource {
                  Asset a = getOrCreateAsset(jobj, co, p);
                  log.debug("asset serial {}", a.getSerialNumber());
 			 }
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			log.error(e.getMessage());
-			return "Failed to parse input. Please verify csv";
+			reponse.put("Err", "Failed to parse input. "+e.getMessage());
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "InvalidBody", "Failed to parse input. Err: "+e.getMessage())).body(reponse.toString());
 		}
-        return json;
+        reponse.put("OK", "Saved Bulk Upload");
+        return ResponseEntity.ok().body(reponse.toString());
     }
 
 
@@ -225,7 +232,7 @@ public class AssetResource {
         String assetSerial = BulkResource.getSerial(jobj);
         log.debug("Asset serial is {}", assetSerial);
         Asset asset = BulkResource.getAssetBySerial(assetSerial, assetRepository);
-        if (p == null) {
+        if (asset == null) {
             log.debug("Need to create Asset {}", assetSerial);
             String modelNumber = BulkResource.getModel(jobj);
             String oem = BulkResource.getOEM(jobj);

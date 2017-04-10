@@ -1,13 +1,9 @@
 
 <div>
-    <h2><span>Contract</span> {{vm.contract.id}}</h2>
+    <h2>{{vm.contract.contractNumber}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span>Contract Number</span></dt>
-        <dd>
-            <span>{{vm.contract.contractNumber}}</span>
-        </dd>
         <dt><span>Start Of Contract</span></dt>
         <dd>
             <span>{{vm.contract.startOfContract | date:'mediumDate'}}</span>
