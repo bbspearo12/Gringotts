@@ -44,7 +44,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
+           <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']"> 
                 <tr ng-repeat="asset in vm.assets track by asset.id">
                     
                     <td><a ui-sref="asset-detail({id:asset.id})">{{asset.serialNumber}}</a></td>
