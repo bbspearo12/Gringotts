@@ -1,13 +1,15 @@
 package com.groupware.gringotts.service.mapper;
 
-import com.groupware.gringotts.domain.Authority;
-import com.groupware.gringotts.domain.User;
-import com.groupware.gringotts.service.dto.UserDTO;
-import org.mapstruct.*;
-
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+import com.groupware.gringotts.domain.Authority;
+import com.groupware.gringotts.domain.User;
+import com.groupware.gringotts.service.dto.UserDTO;
 
 /**
  * Mapper for the entity User and its DTO UserDTO.

@@ -1,16 +1,11 @@
 package com.groupware.gringotts.service;
 
-import com.groupware.gringotts.domain.Authority;
-import com.groupware.gringotts.domain.User;
-import com.groupware.gringotts.repository.AuthorityRepository;
-import com.groupware.gringotts.repository.PersistentTokenRepository;
-import com.groupware.gringotts.config.Constants;
-import com.groupware.gringotts.repository.UserRepository;
-import com.groupware.gringotts.repository.search.UserSearchRepository;
-import com.groupware.gringotts.security.AuthoritiesConstants;
-import com.groupware.gringotts.security.SecurityUtils;
-import com.groupware.gringotts.service.util.RandomUtil;
-import com.groupware.gringotts.service.dto.UserDTO;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +16,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.*;
+import com.groupware.gringotts.config.Constants;
+import com.groupware.gringotts.domain.Authority;
+import com.groupware.gringotts.domain.User;
+import com.groupware.gringotts.repository.AuthorityRepository;
+import com.groupware.gringotts.repository.PersistentTokenRepository;
+import com.groupware.gringotts.repository.UserRepository;
+import com.groupware.gringotts.repository.search.UserSearchRepository;
+import com.groupware.gringotts.security.AuthoritiesConstants;
+import com.groupware.gringotts.security.SecurityUtils;
+import com.groupware.gringotts.service.dto.UserDTO;
+import com.groupware.gringotts.service.util.RandomUtil;
 
 /**
  * Service class for managing users.

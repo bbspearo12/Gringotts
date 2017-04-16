@@ -1,13 +1,21 @@
 package com.groupware.gringotts.web.rest;
 
-import com.groupware.gringotts.GringottsApp;
-import com.groupware.gringotts.domain.User;
-import com.groupware.gringotts.repository.UserRepository;
-import com.groupware.gringotts.repository.search.UserSearchRepository;
-import com.groupware.gringotts.service.MailService;
-import com.groupware.gringotts.service.UserService;
-import com.groupware.gringotts.web.rest.errors.ExceptionTranslator;
-import com.groupware.gringotts.web.rest.vm.ManagedUserVM;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.EntityManager;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,15 +31,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.groupware.gringotts.GringottsApp;
+import com.groupware.gringotts.domain.User;
+import com.groupware.gringotts.repository.UserRepository;
+import com.groupware.gringotts.repository.search.UserSearchRepository;
+import com.groupware.gringotts.service.MailService;
+import com.groupware.gringotts.service.UserService;
+import com.groupware.gringotts.web.rest.errors.ExceptionTranslator;
+import com.groupware.gringotts.web.rest.vm.ManagedUserVM;
 
 /**
  * Test class for the UserResource REST controller.

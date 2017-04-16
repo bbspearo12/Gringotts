@@ -1,16 +1,17 @@
 package com.groupware.gringotts.service.dto;
 
-import com.groupware.gringotts.config.Constants;
-
-import com.groupware.gringotts.domain.Authority;
-import com.groupware.gringotts.domain.User;
-
-import org.hibernate.validator.constraints.Email;
-
-import javax.validation.constraints.*;
 import java.time.ZonedDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+
+import com.groupware.gringotts.config.Constants;
+import com.groupware.gringotts.domain.Authority;
+import com.groupware.gringotts.domain.User;
 
 /**
  * A DTO representing a user, with his authorities.

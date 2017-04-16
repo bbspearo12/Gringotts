@@ -1,11 +1,10 @@
 package com.groupware.gringotts.security;
 
-import com.groupware.gringotts.domain.PersistentToken;
-import com.groupware.gringotts.repository.PersistentTokenRepository;
-import com.groupware.gringotts.repository.UserRepository;
-import com.groupware.gringotts.service.util.RandomUtil;
+import java.time.LocalDate;
+import java.util.Arrays;
 
-import io.github.jhipster.config.JHipsterProperties;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +12,19 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.authentication.rememberme.*;
+import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.CookieTheftException;
+import org.springframework.security.web.authentication.rememberme.InvalidCookieException;
+import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.time.LocalDate;
-import java.util.Arrays;
+import com.groupware.gringotts.domain.PersistentToken;
+import com.groupware.gringotts.repository.PersistentTokenRepository;
+import com.groupware.gringotts.repository.UserRepository;
+import com.groupware.gringotts.service.util.RandomUtil;
+
+import io.github.jhipster.config.JHipsterProperties;
 
 /**
  * Custom implementation of Spring Security's RememberMeServices.

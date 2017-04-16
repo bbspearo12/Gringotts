@@ -1,11 +1,12 @@
 package com.groupware.gringotts.repository;
 
-import com.groupware.gringotts.domain.PersistentToken;
-import com.groupware.gringotts.domain.User;
 import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+import com.groupware.gringotts.domain.PersistentToken;
+import com.groupware.gringotts.domain.User;
 
 /**
  * Spring Data JPA repository for the PersistentToken entity.

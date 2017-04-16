@@ -1,11 +1,18 @@
 package com.groupware.gringotts.web.rest;
 
-import com.groupware.gringotts.GringottsApp;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.groupware.gringotts.domain.Provider;
-import com.groupware.gringotts.repository.ProviderRepository;
-import com.groupware.gringotts.repository.search.ProviderSearchRepository;
-import com.groupware.gringotts.web.rest.errors.ExceptionTranslator;
+import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,13 +28,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.groupware.gringotts.GringottsApp;
+import com.groupware.gringotts.domain.Provider;
+import com.groupware.gringotts.repository.ProviderRepository;
+import com.groupware.gringotts.repository.search.ProviderSearchRepository;
+import com.groupware.gringotts.web.rest.errors.ExceptionTranslator;
 
 /**
  * Test class for the ProviderResource REST controller.

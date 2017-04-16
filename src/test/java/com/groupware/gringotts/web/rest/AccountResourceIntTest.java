@@ -1,16 +1,20 @@
 package com.groupware.gringotts.web.rest;
 
-import com.groupware.gringotts.GringottsApp;
-import com.groupware.gringotts.domain.Authority;
-import com.groupware.gringotts.domain.User;
-import com.groupware.gringotts.repository.AuthorityRepository;
-import com.groupware.gringotts.repository.PersistentTokenRepository;
-import com.groupware.gringotts.repository.UserRepository;
-import com.groupware.gringotts.security.AuthoritiesConstants;
-import com.groupware.gringotts.service.MailService;
-import com.groupware.gringotts.service.UserService;
-import com.groupware.gringotts.service.dto.UserDTO;
-import com.groupware.gringotts.web.rest.vm.ManagedUserVM;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,15 +28,17 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.groupware.gringotts.GringottsApp;
+import com.groupware.gringotts.domain.Authority;
+import com.groupware.gringotts.domain.User;
+import com.groupware.gringotts.repository.AuthorityRepository;
+import com.groupware.gringotts.repository.PersistentTokenRepository;
+import com.groupware.gringotts.repository.UserRepository;
+import com.groupware.gringotts.security.AuthoritiesConstants;
+import com.groupware.gringotts.service.MailService;
+import com.groupware.gringotts.service.UserService;
+import com.groupware.gringotts.service.dto.UserDTO;
+import com.groupware.gringotts.web.rest.vm.ManagedUserVM;
 
 /**
  * Test class for the AccountResource REST controller.

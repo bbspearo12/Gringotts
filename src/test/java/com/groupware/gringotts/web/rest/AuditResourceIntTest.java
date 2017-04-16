@@ -1,10 +1,15 @@
 package com.groupware.gringotts.web.rest;
 
-import com.groupware.gringotts.GringottsApp;
-import com.groupware.gringotts.config.audit.AuditEventConverter;
-import com.groupware.gringotts.domain.PersistentAuditEvent;
-import com.groupware.gringotts.repository.PersistenceAuditEventRepository;
-import com.groupware.gringotts.service.AuditEventService;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,12 +25,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.groupware.gringotts.GringottsApp;
+import com.groupware.gringotts.config.audit.AuditEventConverter;
+import com.groupware.gringotts.domain.PersistentAuditEvent;
+import com.groupware.gringotts.repository.PersistenceAuditEventRepository;
+import com.groupware.gringotts.service.AuditEventService;
 
 /**
  * Test class for the AuditResource REST controller.

@@ -1,7 +1,8 @@
 package com.groupware.gringotts.web.rest.vm;
 
-import ch.qos.logback.classic.Logger;
 import com.fasterxml.jackson.annotation.JsonCreator;
+
+import ch.qos.logback.classic.Logger;
 
 /**
  * View Model object for storing a Logback logger.
