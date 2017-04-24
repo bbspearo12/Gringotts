@@ -28,7 +28,7 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://localhost:3306/gringotts?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: cmutgi
-        password: 
+        password: gringotts
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -65,7 +65,7 @@ spring:
 
 liquibase:
     contexts: dev
-    password: 
+    password: gringotts
 
 # ===================================================================
 # To enable SSL, generate a certificate using:
