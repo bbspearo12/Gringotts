@@ -258,7 +258,7 @@ public class BulkResource {
 	    c.setCity(city);
 	    c.setState(state);
 	    c.setPhoneNumber(phno);
-	    c.setZip(Integer.valueOf(zip));
+	    c.setZip(zip);
 	    c.setPrimaryContact(pcontact);
 	    c.setEmail(email);
 

@@ -1,18 +1,11 @@
 package com.groupware.gringotts.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.groupware.gringotts.GringottsApp;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
+import com.groupware.gringotts.domain.Company;
+import com.groupware.gringotts.repository.CompanyRepository;
+import com.groupware.gringotts.repository.search.CompanySearchRepository;
+import com.groupware.gringotts.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,11 +21,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.groupware.gringotts.GringottsApp;
-import com.groupware.gringotts.domain.Company;
-import com.groupware.gringotts.repository.CompanyRepository;
-import com.groupware.gringotts.repository.search.CompanySearchRepository;
-import com.groupware.gringotts.web.rest.errors.ExceptionTranslator;
+import javax.persistence.EntityManager;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Test class for the CompanyResource REST controller.
@@ -58,9 +53,6 @@ public class CompanyResourceIntTest {
     private static final String DEFAULT_STATE = "AAAAAAAAAA";
     private static final String UPDATED_STATE = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_ZIP = 1;
-    private static final Integer UPDATED_ZIP = 2;
-
     private static final String DEFAULT_PRIMARY_CONTACT = "AAAAAAAAAA";
     private static final String UPDATED_PRIMARY_CONTACT = "BBBBBBBBBB";
 
@@ -69,6 +61,9 @@ public class CompanyResourceIntTest {
 
     private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
     private static final String UPDATED_EMAIL = "BBBBBBBBBB";
+
+    private static final String DEFAULT_ZIP = "AAAAAAAAAA";
+    private static final String UPDATED_ZIP = "BBBBBBBBBB";
 
     @Autowired
     private CompanyRepository companyRepository;
@@ -115,10 +110,10 @@ public class CompanyResourceIntTest {
             .addressLine2(DEFAULT_ADDRESS_LINE_2)
             .city(DEFAULT_CITY)
             .state(DEFAULT_STATE)
-            .zip(DEFAULT_ZIP)
             .primaryContact(DEFAULT_PRIMARY_CONTACT)
             .phoneNumber(DEFAULT_PHONE_NUMBER)
-            .email(DEFAULT_EMAIL);
+            .email(DEFAULT_EMAIL)
+            .zip(DEFAULT_ZIP);
         return company;
     }
 
@@ -148,10 +143,10 @@ public class CompanyResourceIntTest {
         assertThat(testCompany.getAddressLine2()).isEqualTo(DEFAULT_ADDRESS_LINE_2);
         assertThat(testCompany.getCity()).isEqualTo(DEFAULT_CITY);
         assertThat(testCompany.getState()).isEqualTo(DEFAULT_STATE);
-        assertThat(testCompany.getZip()).isEqualTo(DEFAULT_ZIP);
         assertThat(testCompany.getPrimaryContact()).isEqualTo(DEFAULT_PRIMARY_CONTACT);
         assertThat(testCompany.getPhoneNumber()).isEqualTo(DEFAULT_PHONE_NUMBER);
         assertThat(testCompany.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(testCompany.getZip()).isEqualTo(DEFAULT_ZIP);
 
         // Validate the Company in Elasticsearch
         Company companyEs = companySearchRepository.findOne(testCompany.getId());
@@ -251,24 +246,6 @@ public class CompanyResourceIntTest {
 
     @Test
     @Transactional
-    public void checkZipIsRequired() throws Exception {
-        int databaseSizeBeforeTest = companyRepository.findAll().size();
-        // set the field null
-        company.setZip(null);
-
-        // Create the Company, which fails.
-
-        restCompanyMockMvc.perform(post("/api/companies")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(company)))
-            .andExpect(status().isBadRequest());
-
-        List<Company> companyList = companyRepository.findAll();
-        assertThat(companyList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void checkPrimaryContactIsRequired() throws Exception {
         int databaseSizeBeforeTest = companyRepository.findAll().size();
         // set the field null
@@ -337,10 +314,10 @@ public class CompanyResourceIntTest {
             .andExpect(jsonPath("$.[*].addressLine2").value(hasItem(DEFAULT_ADDRESS_LINE_2.toString())))
             .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY.toString())))
             .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE.toString())))
-            .andExpect(jsonPath("$.[*].zip").value(hasItem(DEFAULT_ZIP)))
             .andExpect(jsonPath("$.[*].primaryContact").value(hasItem(DEFAULT_PRIMARY_CONTACT.toString())))
             .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER.toString())))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())));
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())))
+            .andExpect(jsonPath("$.[*].zip").value(hasItem(DEFAULT_ZIP.toString())));
     }
 
     @Test
@@ -359,10 +336,10 @@ public class CompanyResourceIntTest {
             .andExpect(jsonPath("$.addressLine2").value(DEFAULT_ADDRESS_LINE_2.toString()))
             .andExpect(jsonPath("$.city").value(DEFAULT_CITY.toString()))
             .andExpect(jsonPath("$.state").value(DEFAULT_STATE.toString()))
-            .andExpect(jsonPath("$.zip").value(DEFAULT_ZIP))
             .andExpect(jsonPath("$.primaryContact").value(DEFAULT_PRIMARY_CONTACT.toString()))
             .andExpect(jsonPath("$.phoneNumber").value(DEFAULT_PHONE_NUMBER.toString()))
-            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL.toString()));
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL.toString()))
+            .andExpect(jsonPath("$.zip").value(DEFAULT_ZIP.toString()));
     }
 
     @Test
@@ -389,10 +366,10 @@ public class CompanyResourceIntTest {
             .addressLine2(UPDATED_ADDRESS_LINE_2)
             .city(UPDATED_CITY)
             .state(UPDATED_STATE)
-            .zip(UPDATED_ZIP)
             .primaryContact(UPDATED_PRIMARY_CONTACT)
             .phoneNumber(UPDATED_PHONE_NUMBER)
-            .email(UPDATED_EMAIL);
+            .email(UPDATED_EMAIL)
+            .zip(UPDATED_ZIP);
 
         restCompanyMockMvc.perform(put("/api/companies")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -408,10 +385,10 @@ public class CompanyResourceIntTest {
         assertThat(testCompany.getAddressLine2()).isEqualTo(UPDATED_ADDRESS_LINE_2);
         assertThat(testCompany.getCity()).isEqualTo(UPDATED_CITY);
         assertThat(testCompany.getState()).isEqualTo(UPDATED_STATE);
-        assertThat(testCompany.getZip()).isEqualTo(UPDATED_ZIP);
         assertThat(testCompany.getPrimaryContact()).isEqualTo(UPDATED_PRIMARY_CONTACT);
         assertThat(testCompany.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
         assertThat(testCompany.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testCompany.getZip()).isEqualTo(UPDATED_ZIP);
 
         // Validate the Company in Elasticsearch
         Company companyEs = companySearchRepository.findOne(testCompany.getId());
@@ -475,10 +452,10 @@ public class CompanyResourceIntTest {
             .andExpect(jsonPath("$.[*].addressLine2").value(hasItem(DEFAULT_ADDRESS_LINE_2.toString())))
             .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY.toString())))
             .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE.toString())))
-            .andExpect(jsonPath("$.[*].zip").value(hasItem(DEFAULT_ZIP)))
             .andExpect(jsonPath("$.[*].primaryContact").value(hasItem(DEFAULT_PRIMARY_CONTACT.toString())))
             .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER.toString())))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())));
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())))
+            .andExpect(jsonPath("$.[*].zip").value(hasItem(DEFAULT_ZIP.toString())));
     }
 
     @Test

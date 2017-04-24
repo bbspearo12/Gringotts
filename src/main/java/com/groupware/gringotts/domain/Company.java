@@ -1,19 +1,13 @@
 package com.groupware.gringotts.domain;
 
-import java.io.Serializable;
-import java.util.Objects;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A Company.
@@ -50,10 +44,6 @@ public class Company implements Serializable {
     private String state;
 
     @NotNull
-    @Column(name = "zip", nullable = false)
-    private Integer zip;
-
-    @NotNull
     @Column(name = "primary_contact", nullable = false)
     private String primaryContact;
 
@@ -64,6 +54,9 @@ public class Company implements Serializable {
     @NotNull
     @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "zip")
+    private String zip;
 
     public Long getId() {
         return id;
@@ -138,19 +131,6 @@ public class Company implements Serializable {
         this.state = state;
     }
 
-    public Integer getZip() {
-        return zip;
-    }
-
-    public Company zip(Integer zip) {
-        this.zip = zip;
-        return this;
-    }
-
-    public void setZip(Integer zip) {
-        this.zip = zip;
-    }
-
     public String getPrimaryContact() {
         return primaryContact;
     }
@@ -190,6 +170,19 @@ public class Company implements Serializable {
         this.email = email;
     }
 
+    public String getZip() {
+        return zip;
+    }
+
+    public Company zip(String zip) {
+        this.zip = zip;
+        return this;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -219,10 +212,10 @@ public class Company implements Serializable {
             ", addressLine2='" + addressLine2 + "'" +
             ", city='" + city + "'" +
             ", state='" + state + "'" +
-            ", zip='" + zip + "'" +
             ", primaryContact='" + primaryContact + "'" +
             ", phoneNumber='" + phoneNumber + "'" +
             ", email='" + email + "'" +
+            ", zip='" + zip + "'" +
             '}';
     }
 }

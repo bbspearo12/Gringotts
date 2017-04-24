@@ -100,10 +100,10 @@
                                 addressLine2: null,
                                 city: null,
                                 state: null,
-                                zip: null,
                                 primaryContact: null,
                                 phoneNumber: null,
                                 email: null,
+                                zip: null,
                                 id: null
                             };
                         }

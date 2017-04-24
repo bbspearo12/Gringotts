@@ -35,13 +35,6 @@
             ]
         },
         {
-            "fieldName": "zip",
-            "fieldType": "Integer",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "primaryContact",
             "fieldType": "String",
             "fieldValidateRules": [
@@ -61,11 +54,15 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "zip",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20170315164537",
-    "entityTableName": "company",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "entityTableName": "company",
+    "pagination": "no"
 }

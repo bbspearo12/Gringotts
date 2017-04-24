@@ -68,22 +68,6 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_zip">Zip</label>
-            <input type="number" class="form-control" name="zip" id="field_zip"
-                    ng-model="vm.company.zip"
-                    required/>
-            <div ng-show="editForm.zip.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.zip.$error.required">
-                    This field is required.
-                </p>
-                <p class="help-block"
-                    ng-show="editForm.zip.$error.number">
-                    This field should be a number.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="control-label" for="field_primaryContact">Primary Contact</label>
             <input type="text" class="form-control" name="primaryContact" id="field_primaryContact"
                     ng-model="vm.company.primaryContact"
@@ -118,6 +102,12 @@
                     This field is required.
                 </p>
             </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_zip">Zip</label>
+            <input type="text" class="form-control" name="zip" id="field_zip"
+                    ng-model="vm.company.zip"
+                    />
         </div>
 
     </div>
