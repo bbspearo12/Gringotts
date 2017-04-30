@@ -34,75 +34,69 @@ public class BulkResource {
 
     private static final String ENTITY_NAME = "bulk";
 
-//    private final ProviderRepository providerRepository;
-//
-//    private final ProviderSearchRepository providerSearchRepository;
-//
-//    public BulkResource(ProviderRepository providerRepository, ProviderSearchRepository providerSearchRepository) {
-//        this.providerRepository = providerRepository;
-//        this.providerSearchRepository = providerSearchRepository;
-//    }
-
-
+    // Service provider stuff
 	public static String getProviderName(JSONObject jobj) throws JSONException {
-    		return  StringUtils.strip(jobj.getString("Service Vendor"), "Ê");
+    		return  jobj.getString("Service Vendor").replaceAll("[^\\p{ASCII}]", "");
     }
 	public static String getProviderPhone(JSONObject jobj) throws JSONException {
-		return StringUtils.strip(jobj.getString("Vendor Contact Number"), "Ê");
+		return jobj.getString("Vendor Contact Number").replaceAll("[^\\p{ASCII}]", "");
 	}
-	public static String getCompanyName(JSONObject jobj) throws JSONException {
-		return StringUtils.strip(jobj.getString("Name"), "Ê");
+	public static String getProviderPrimaryContact(JSONObject jobj) throws JSONException {
+		return  jobj.getString("Vendor Primary Contact").replaceAll("[^\\p{ASCII}]", "");
 	}
-
+	
     // Company Stuff
+	public static String getCompanyName(JSONObject jobj) throws JSONException {
+		return jobj.getString("Name").replaceAll("[^\\p{ASCII}]", "");
+	}
     public static String getCompanyAL1(JSONObject jobj) throws JSONException {
-		return StringUtils.strip(jobj.getString("Address Line 1"), "Ê");
+		return jobj.getString("Address Line 1").replaceAll("[^\\p{ASCII}]", "");
 	}
 	public static String getCompanyCity(JSONObject jobj) throws JSONException {
-		return StringUtils.strip(jobj.getString("City"), "Ê");
+		return jobj.getString("City").replaceAll("[^\\p{ASCII}]", "");
 	}
 	public static String getCompanyState(JSONObject jobj) throws JSONException {
-		return StringUtils.strip(jobj.getString("State"), "Ê");
+		return jobj.getString("State").replaceAll("[^\\p{ASCII}]", "");
 	}
 	public static String getCompanyPrimaryPhone(JSONObject jobj) throws JSONException {
-		return StringUtils.strip(jobj.getString("Phone Number"), "Ê");
+		return jobj.getString("Phone Number").replaceAll("[^\\p{ASCII}]", "");
 	}
 	public static String getCompanyZip(JSONObject jobj) throws JSONException {
-		return StringUtils.strip(jobj.getString("Zip"), "Ê");
+		return jobj.getString("Zip").replaceAll("[^\\p{ASCII}]", "");
 	}
 	public static String getCompanyPrimaryContact(JSONObject jobj) throws JSONException {
-		return StringUtils.strip(jobj.getString("Primary Contact"), "Ê");
+		return jobj.getString("Primary Contact").replaceAll("[^\\p{ASCII}]", "");
 	}
 	public static String getCompanyEmail(JSONObject jobj) throws JSONException {
-		return StringUtils.strip(jobj.getString("Email"), "Ê");
+		return jobj.getString("Email").replaceAll("[^\\p{ASCII}]", "");
 	}
 
 	// Contract Stuff
 	public static String getContractID(JSONObject jobj) throws JSONException {
-		return StringUtils.strip(jobj.getString("Contract"), "Ê");
+		return jobj.getString("Contract").replaceAll("[^\\p{ASCII}]", "");
 	}
 	public static String getContractStart(JSONObject jobj) throws JSONException {
-		return StringUtils.strip(jobj.getString("Start Date"), "Ê");
+		return jobj.getString("Start Date").replaceAll("[^\\p{ASCII}]", "");
 	}
 	public static String getContractEnd(JSONObject jobj) throws JSONException {
-		return StringUtils.strip(jobj.getString("End Date"), "Ê");
+		return jobj.getString("End Date").replaceAll("[^\\p{ASCII}]", "");
 	}
 	public static String getContractCoveragePlan(JSONObject jobj) throws JSONException {
-		return StringUtils.strip(jobj.getString("Email"), "Ê");
+		return jobj.getString("Email").replaceAll("[^\\p{ASCII}]", "");
 	}
 
 	// Asset Stuff
     public static String getSerial(JSONObject jobj) throws JSONException {
-        return StringUtils.strip(jobj.getString("Serial Number"), "Ê");
+        return jobj.getString("Serial Number").replaceAll("[^\\p{ASCII}]", "");
     }
     public static String getModel(JSONObject jobj) throws JSONException {
-        return StringUtils.strip(jobj.getString("Model"), "Ê");
+        return jobj.getString("Model").replaceAll("[^\\p{ASCII}]", "");
     }
     public static String getOEM(JSONObject jobj) throws JSONException {
-        return StringUtils.strip(jobj.getString("OEM"), "Ê");
+        return jobj.getString("OEM").replaceAll("[^\\p{ASCII}]", "");
     }
     public static String getType(JSONObject jobj) throws JSONException {
-        return StringUtils.strip(jobj.getString("Type"), "Ê");
+        return jobj.getString("Type").replaceAll("[^\\p{ASCII}]", "");
     }
 
 
