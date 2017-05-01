@@ -1,9 +1,8 @@
 <div ng-cloak>
     <div class="row">
-       
         <div class="col-md-8">
-            <h1>Welcome, Gringotts!</h1>
-
+            <h2>Search</h2>
+<!--
             <div ng-switch="vm.isAuthenticated()">
                 <div class="alert alert-success" ng-switch-when="true">
                     You are logged in as user "{{vm.account.login}}".
@@ -16,12 +15,228 @@
                 <div class="alert alert-warning" ng-switch-when="false">
                     You don't have an account yet? <a class="alert-link" ui-sref="register">Register a new account</a>
                 </div>
-                <body ng-app="mainApp">
-                	<input type="text" ng-model="searchBox">
-                	
-            </div>
-
-         
+-->
+          </div>
         </div>
     </div>
+</div>
+<div class="table-responsive" ng-if="vm.searchEntity == 'Unknown'">
+	<div class="alert alert-warning">
+	                    Please prepend search with required entity, ex: asset=FCH161277QP, contract=SO13236. 
+	</div>                    
+</div>
+<div class="col-xs-8 no-padding-right">
+    <form name="searchForm" class="form-inline">
+        <div class="input-group pull-right" >
+            <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="Query">
+            <span  class="input-group-btn width-min" >
+                <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </span>
+            <span class="input-group-btn width-min" ng-if="vm.currentSearch">
+                <button class="btn btn-info" ng-click="vm.clear()">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </span>
+        </div>
+    </form>
+</div>   
+<br/>
+<br/>
+<div class="table-responsive" ng-if="vm.searchEntity == 'asset'">
+	<table class="jh-table table table-striped">
+	    <thead>
+	        <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
+	            <th jh-sort-by="serialNumber"><span>Serial Number</span> <span class="glyphicon glyphicon-sort"></span></th>
+	            <th jh-sort-by="oEM"><span>OEM</span> <span class="glyphicon glyphicon-sort"></span></th>
+	            <th jh-sort-by="modelNumber"><span>Model Number</span> <span class="glyphicon glyphicon-sort"></span></th>
+	            <th jh-sort-by="type"><span>Type</span> <span class="glyphicon glyphicon-sort"></span></th>
+	            <th jh-sort-by="contract.contractNumber"><span>Contract</span> <span class="glyphicon glyphicon-sort"></span></th>
+	            <th jh-sort-by="provider.provider"><span>Provider</span> <span class="glyphicon glyphicon-sort"></span></th>
+	            <th></th>
+	        </tr>
+	    </thead>
+	   <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']"> 
+	        <tr ng-repeat="asset in vm.assets track by asset.id">
+	            
+	            <td><a ui-sref="asset-detail({id:asset.id})">{{asset.serialNumber}}</a></td>
+	            <td>{{asset.oEM}}</td>
+	            <td>{{asset.modelNumber}}</td>
+	            <td>{{asset.type}}</td>
+	            <td>
+	                <a ui-sref="contract-detail({id:asset.contract.id})">{{asset.contract.contractNumber}}</a>
+	            </td>
+	            <td>
+	                <a ui-sref="provider-detail({id:asset.provider.id})">{{asset.provider.provider}}</a>
+	            </td>
+	            <td class="text-right">
+	                <div class="btn-group flex-btn-group-container">
+	                    <button type="submit"
+	                            ui-sref="asset-detail({id:asset.id})"
+	                            class="btn btn-info btn-sm">
+	                        <span class="glyphicon glyphicon-eye-open"></span>
+	                        <span class="hidden-sm-down"></span>
+	                    </button>
+	                    <button type="submit"
+	                            ui-sref="asset.edit({id:asset.id})"
+	                            class="btn btn-primary btn-sm">
+	                        <span class="glyphicon glyphicon-pencil"></span>
+	                        <span class="hidden-sm-down"></span>
+	                    </button>
+	                    <button type="submit"
+	                            ui-sref="asset.delete({id:asset.id})"
+	                            class="btn btn-danger btn-sm">
+	                        <span class="glyphicon glyphicon-remove-circle"></span>
+	                        <span class="hidden-sm-down"></span>
+	                    </button>
+	                </div>
+	            </td>
+	        </tr>
+	    </tbody>
+	</table>
+</div>
+<div class="table-responsive" ng-if="vm.searchEntity == 'contract'">
+    <table class="jh-table table table-striped">
+        <thead>
+            <tr>
+                <th><span>Contract Number</span></th>
+                <th><span>Start Of Contract</span></th>
+                <th><span>End Of Contract</span></th>
+                <th><span>Coverage Plan</span></th>
+                <th><span>Company</span></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="contract in vm.contracts track by contract.id">
+                <td><a ui-sref="contract-detail({id:contract.id})">{{contract.contractNumber}}</a></td>
+                    <td>{{contract.startOfContract | date:'mediumDate'}}</td>
+                    <td>{{contract.endOfContract | date:'mediumDate'}}</td>
+                <td>{{contract.coveragePlan}}</td>
+                <td>
+                    <a ui-sref="company-detail({id:contract.company.id})">{{contract.company.name}}</a>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                ui-sref="contract-detail({id:contract.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                            <span class="hidden-sm-down"></span>
+                        </button>
+                        <button type="submit"
+                                ui-sref="contract.edit({id:contract.id})"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            <span class="hidden-sm-down"></span>
+                        </button>
+                        <button type="submit"
+                                ui-sref="contract.delete({id:contract.id})"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                            <span class="hidden-sm-down"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="table-responsive" ng-if="vm.searchEntity == 'company'">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span>ID</span></th>
+                    <th><span>Name</span></th>
+                    <th><span>Address Line 1</span></th>
+                    <th><span>Address Line 2</span></th>
+                    <th><span>City</span></th>
+                    <th><span>State</span></th>
+                    <th><span>Primary Contact</span></th>
+                    <th><span>Phone Number</span></th>
+                    <th><span>Email</span></th>
+                    <th><span>Zip</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="company in vm.companies track by company.id">
+                    <td><a ui-sref="company-detail({id:company.id})">{{company.name}}</a></td>
+                    <td>{{company.addressLine1}}</td>
+                    <td>{{company.addressLine2}}</td>
+                    <td>{{company.city}}</td>
+                    <td>{{company.state}}</td>
+                    <td>{{company.primaryContact}}</td>
+                    <td>{{company.phoneNumber}}</td>
+                    <td>{{company.email}}</td>
+                    <td>{{company.zip}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="company-detail({id:company.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="company.edit({id:company.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="company.delete({id:company.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</div>
+<div class="table-responsive" ng-if="vm.searchEntity == 'provider'">
+    <table class="jh-table table table-striped">
+        <thead>
+            <tr>
+                <th><span>ID</span></th>
+                <th><span>Provider</span></th>
+                <th><span>Phone</span></th>
+                <th><span>Primary Contact</span></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="provider in vm.providers track by provider.id">
+                <td><a ui-sref="provider-detail({id:provider.id})">{{provider.id}}</a></td>
+                <td>{{provider.provider}}</td>
+                <td>{{provider.phone}}</td>
+                <td>{{provider.primaryContact}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                ui-sref="provider-detail({id:provider.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                            <span class="hidden-sm-down"></span>
+                        </button>
+                        <button type="submit"
+                                ui-sref="provider.edit({id:provider.id})"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            <span class="hidden-sm-down"></span>
+                        </button>
+                        <button type="submit"
+                                ui-sref="provider.delete({id:provider.id})"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>
+                            <span class="hidden-sm-down"></span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
