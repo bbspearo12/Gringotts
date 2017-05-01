@@ -158,6 +158,8 @@ public class BulkResource {
 			dtf = DateTimeFormatter.ofPattern("MM/dd/yy");
 			startOfContract = ensureProperDateFormat(startOfContract);
 			endOfContract = ensureProperDateFormat(endOfContract);
+		} else if (startOfContract != null && StringUtils.contains(startOfContract, "-")) {
+			dtf = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
 		} else {
 			dtf = DateTimeFormatter.ofPattern("dd MMM yyyy");
 		}
