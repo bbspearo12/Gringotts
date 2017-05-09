@@ -82,7 +82,7 @@ public class BulkResource {
 		return jobj.getString("End Date").replaceAll("[^\\p{ASCII}]", "");
 	}
 	public static String getContractCoveragePlan(JSONObject jobj) throws JSONException {
-		return jobj.getString("Email").replaceAll("[^\\p{ASCII}]", "");
+		return jobj.getString("Coverage Plan").replaceAll("[^\\p{ASCII}]", "");
 	}
 
 	// Asset Stuff
@@ -152,17 +152,20 @@ public class BulkResource {
     		Company c,
     		ContractRepository contractRepository,
     		ContractSearchRepository contractSearchRepository) {
-		DateTimeFormatter dtf= null;
+ 		DateTimeFormatter dtf= null;
 
 		if (startOfContract != null && StringUtils.contains(startOfContract, "/")) {
 			dtf = DateTimeFormatter.ofPattern("MM/dd/yy");
 			startOfContract = ensureProperDateFormat(startOfContract);
 			endOfContract = ensureProperDateFormat(endOfContract);
-		} else if (startOfContract != null && StringUtils.contains(startOfContract, "-")) {
+			
+		} else if (startOfContract != null && StringUtils.contains(startOfContract, "-") && startOfContract.length() == 11) {
 			dtf = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
+		} else if (startOfContract != null && StringUtils.contains(startOfContract, "-") && startOfContract.length() == 9 ){
+			dtf = DateTimeFormatter.ofPattern("dd-MMM-yy");
 		} else {
 			dtf = DateTimeFormatter.ofPattern("dd MMM yyyy");
-		}
+		} 
 		
 		LocalDate slocalDate = LocalDate.parse(startOfContract, dtf);
 		LocalDate elocalDate = LocalDate.parse(endOfContract, dtf);
