@@ -90,7 +90,7 @@ public class CompanyResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        CompanyResource companyResource = new CompanyResource(companyRepository, companySearchRepository);
+        CompanyResource companyResource = new CompanyResource(companyRepository, companySearchRepository, null);
         this.restCompanyMockMvc = MockMvcBuilders.standaloneSetup(companyResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

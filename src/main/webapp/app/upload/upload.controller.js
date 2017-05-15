@@ -10,7 +10,6 @@
 
     function UploadController ($scope, $state, $parse, $http) {
         var vm = this;
-        vm.foo='blah';
         $scope.csv = {
             	content: null,
             	header: true,
@@ -19,7 +18,7 @@
             	separatorVisible: true,
             	result: null,
             	encoding: 'ISO-8859-1',
-            	encodingVisible: true,
+            	encodingVisible: false,
                 uploadButtonLabel: "upload a csv file"
             };
 			console.log('foo');

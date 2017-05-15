@@ -36,6 +36,16 @@
         <dd>
             <span>{{vm.company.zip}}</span>
         </dd>
+        <dt><span>Export to csv</span></dt>
+        <dd>
+            <button class="btn btn-primary btn-sm" ng-click="exp(vm.company.id)">
+            	<span class="glyphicon glyphicon-export"></span>&nbsp;
+            </button>
+            <!--<button class="btn btn-default" ng-csv="getArray" csv-header="getHeader()" filename="testg.csv">Export to CSV with header</button>
+            <div ng-if="returned_data" class="block left">
+            	<div>{{returned_data}}</div>
+            </div>-->
+        </dd>
     </dl>
 
     <button type="submit"
