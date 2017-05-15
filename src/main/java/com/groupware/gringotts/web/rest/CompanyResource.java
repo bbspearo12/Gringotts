@@ -149,12 +149,13 @@ public class CompanyResource {
 	@Timed
 	public void getCompanyAssets(@PathVariable Long id, final HttpServletResponse response) throws IOException, JSONException {
 		log.debug("REST request to get assets for Company : {}", id);
-		String filename = id+".csv";
+		Company company = companyRepository.findOne(id);
+		
+		String filename = company.getName()+".csv";
 		String headerKey = "Content-Disposition";
 		String headerValue = String.format("attachment; filename=\"%s\"",
 				filename);
 		response.setHeader(headerKey, headerValue);
-
 		JSONArray ja = new JSONArray();
 		Iterator<Asset> assets = assetRepository.findAll().iterator();
 		int i=0;
