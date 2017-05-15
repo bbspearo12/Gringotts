@@ -44,6 +44,9 @@ public class BulkResource {
 	public static String getProviderPrimaryContact(JSONObject jobj) throws JSONException {
 		return  jobj.getString("Vendor Primary Contact").replaceAll("[^\\p{ASCII}]", "");
 	}
+	public static String getProviderEmail(JSONObject jobj) throws JSONException {
+		return  jobj.getString("Vendor Email").replaceAll("[^\\p{ASCII}]", "");
+	}
 	
     // Company Stuff
 	public static String getCompanyName(JSONObject jobj) throws JSONException {
@@ -220,12 +223,14 @@ public class BulkResource {
     public static Provider createProvider(String pname,
     		String phone,
     		String pcontact,
+    		String email,
     		ProviderRepository providerRepository,
     		ProviderSearchRepository providerSearchRepository) {
 	    Provider p = new Provider();
 	    p.setPhone(phone);
 	    p.setPrimaryContact(pcontact);
 	    p.setProvider(pname);
+	    p.setEmail(email);
 	    Provider result = providerRepository.save(p);
 	    providerSearchRepository.save(result);
 	    return result;

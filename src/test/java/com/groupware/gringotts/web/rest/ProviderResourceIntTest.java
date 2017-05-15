@@ -1,18 +1,11 @@
 package com.groupware.gringotts.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.groupware.gringotts.GringottsApp;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
+import com.groupware.gringotts.domain.Provider;
+import com.groupware.gringotts.repository.ProviderRepository;
+import com.groupware.gringotts.repository.search.ProviderSearchRepository;
+import com.groupware.gringotts.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,11 +21,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.groupware.gringotts.GringottsApp;
-import com.groupware.gringotts.domain.Provider;
-import com.groupware.gringotts.repository.ProviderRepository;
-import com.groupware.gringotts.repository.search.ProviderSearchRepository;
-import com.groupware.gringotts.web.rest.errors.ExceptionTranslator;
+import javax.persistence.EntityManager;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Test class for the ProviderResource REST controller.
@@ -51,6 +46,9 @@ public class ProviderResourceIntTest {
 
     private static final String DEFAULT_PRIMARY_CONTACT = "AAAAAAAAAA";
     private static final String UPDATED_PRIMARY_CONTACT = "BBBBBBBBBB";
+
+    private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
+    private static final String UPDATED_EMAIL = "BBBBBBBBBB";
 
     @Autowired
     private ProviderRepository providerRepository;
@@ -94,7 +92,8 @@ public class ProviderResourceIntTest {
         Provider provider = new Provider()
             .provider(DEFAULT_PROVIDER)
             .phone(DEFAULT_PHONE)
-            .primaryContact(DEFAULT_PRIMARY_CONTACT);
+            .primaryContact(DEFAULT_PRIMARY_CONTACT)
+            .email(DEFAULT_EMAIL);
         return provider;
     }
 
@@ -122,6 +121,7 @@ public class ProviderResourceIntTest {
         assertThat(testProvider.getProvider()).isEqualTo(DEFAULT_PROVIDER);
         assertThat(testProvider.getPhone()).isEqualTo(DEFAULT_PHONE);
         assertThat(testProvider.getPrimaryContact()).isEqualTo(DEFAULT_PRIMARY_CONTACT);
+        assertThat(testProvider.getEmail()).isEqualTo(DEFAULT_EMAIL);
 
         // Validate the Provider in Elasticsearch
         Provider providerEs = providerSearchRepository.findOne(testProvider.getId());
@@ -214,7 +214,8 @@ public class ProviderResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(provider.getId().intValue())))
             .andExpect(jsonPath("$.[*].provider").value(hasItem(DEFAULT_PROVIDER.toString())))
             .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE.toString())))
-            .andExpect(jsonPath("$.[*].primaryContact").value(hasItem(DEFAULT_PRIMARY_CONTACT.toString())));
+            .andExpect(jsonPath("$.[*].primaryContact").value(hasItem(DEFAULT_PRIMARY_CONTACT.toString())))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())));
     }
 
     @Test
@@ -230,7 +231,8 @@ public class ProviderResourceIntTest {
             .andExpect(jsonPath("$.id").value(provider.getId().intValue()))
             .andExpect(jsonPath("$.provider").value(DEFAULT_PROVIDER.toString()))
             .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE.toString()))
-            .andExpect(jsonPath("$.primaryContact").value(DEFAULT_PRIMARY_CONTACT.toString()));
+            .andExpect(jsonPath("$.primaryContact").value(DEFAULT_PRIMARY_CONTACT.toString()))
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL.toString()));
     }
 
     @Test
@@ -254,7 +256,8 @@ public class ProviderResourceIntTest {
         updatedProvider
             .provider(UPDATED_PROVIDER)
             .phone(UPDATED_PHONE)
-            .primaryContact(UPDATED_PRIMARY_CONTACT);
+            .primaryContact(UPDATED_PRIMARY_CONTACT)
+            .email(UPDATED_EMAIL);
 
         restProviderMockMvc.perform(put("/api/providers")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -268,6 +271,7 @@ public class ProviderResourceIntTest {
         assertThat(testProvider.getProvider()).isEqualTo(UPDATED_PROVIDER);
         assertThat(testProvider.getPhone()).isEqualTo(UPDATED_PHONE);
         assertThat(testProvider.getPrimaryContact()).isEqualTo(UPDATED_PRIMARY_CONTACT);
+        assertThat(testProvider.getEmail()).isEqualTo(UPDATED_EMAIL);
 
         // Validate the Provider in Elasticsearch
         Provider providerEs = providerSearchRepository.findOne(testProvider.getId());
@@ -328,7 +332,8 @@ public class ProviderResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(provider.getId().intValue())))
             .andExpect(jsonPath("$.[*].provider").value(hasItem(DEFAULT_PROVIDER.toString())))
             .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE.toString())))
-            .andExpect(jsonPath("$.[*].primaryContact").value(hasItem(DEFAULT_PRIMARY_CONTACT.toString())));
+            .andExpect(jsonPath("$.[*].primaryContact").value(hasItem(DEFAULT_PRIMARY_CONTACT.toString())))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL.toString())));
     }
 
     @Test

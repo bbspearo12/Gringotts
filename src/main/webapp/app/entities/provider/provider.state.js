@@ -98,6 +98,7 @@
                                 provider: null,
                                 phone: null,
                                 primaryContact: null,
+                                email: null,
                                 id: null
                             };
                         }

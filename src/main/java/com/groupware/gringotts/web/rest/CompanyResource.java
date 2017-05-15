@@ -211,7 +211,7 @@ public class CompanyResource {
 		lhm.put("Vendor Primary Contact", a.getProvider().getPrimaryContact());
 		lhm.put("Vendor Contact Number", a.getProvider().getPhone());
 		// todo update this after the provider entity gets email field
-		lhm.put("Vendor Email", "");
+		lhm.put("Vendor Email", a.getProvider().getEmail());
 		JSONObject  jo = new JSONObject(lhm);
 		return jo;
 	}

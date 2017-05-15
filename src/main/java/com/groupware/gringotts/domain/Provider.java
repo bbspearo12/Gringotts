@@ -1,19 +1,13 @@
 package com.groupware.gringotts.domain;
 
-import java.io.Serializable;
-import java.util.Objects;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A Provider.
@@ -41,6 +35,9 @@ public class Provider implements Serializable {
     @NotNull
     @Column(name = "primary_contact", nullable = false)
     private String primaryContact;
+
+    @Column(name = "email")
+    private String email;
 
     public Long getId() {
         return id;
@@ -89,6 +86,19 @@ public class Provider implements Serializable {
         this.primaryContact = primaryContact;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public Provider email(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -116,6 +126,7 @@ public class Provider implements Serializable {
             ", provider='" + provider + "'" +
             ", phone='" + phone + "'" +
             ", primaryContact='" + primaryContact + "'" +
+            ", email='" + email + "'" +
             '}';
     }
 }

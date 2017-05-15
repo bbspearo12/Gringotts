@@ -22,11 +22,15 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "email",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20170323061220",
-    "entityTableName": "provider",
     "dto": "no",
-    "pagination": "no",
-    "service": "no"
+    "service": "no",
+    "entityTableName": "provider",
+    "pagination": "no"
 }

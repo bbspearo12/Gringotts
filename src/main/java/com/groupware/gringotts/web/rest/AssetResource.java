@@ -285,7 +285,8 @@ public class AssetResource {
 			 log.debug("Need to create sv {}", sv);
 			 String phone = BulkResource.getProviderPhone(jobj);
 			 String primaryContact = BulkResource.getProviderPrimaryContact(jobj);
-			 p = BulkResource.createProvider(sv, phone, primaryContact, this.providerRepository, this.providerSearchRepository);
+			 String email = BulkResource.getProviderEmail(jobj);
+			 p = BulkResource.createProvider(sv, phone, primaryContact, email, this.providerRepository, this.providerSearchRepository);
 		 }
 		 return p;
     }
