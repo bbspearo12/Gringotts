@@ -35,7 +35,7 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr>
-                    <th><span>ID</span></th>
+                    
                     <th><span>Provider</span></th>
                     <th><span>Phone</span></th>
                     <th><span>Primary Contact</span></th>
@@ -45,8 +45,7 @@
             </thead>
             <tbody>
                 <tr ng-repeat="provider in vm.providers track by provider.id">
-                    <td><a ui-sref="provider-detail({id:provider.id})">{{provider.id}}</a></td>
-                    <td>{{provider.provider}}</td>
+                    <td><a ui-sref="provider-detail({id:provider.id})">{{provider.provider}}</a></td>
                     <td>{{provider.phone}}</td>
                     <td>{{provider.primaryContact}}</td>
                     <td>{{provider.email}}</td>
@@ -58,6 +57,7 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span class="hidden-sm-down"></span>
                             </button>
+                            <span has-authority="ROLE_ADMIN">
                             <button type="submit"
                                     ui-sref="provider.edit({id:provider.id})"
                                     class="btn btn-primary btn-sm">
@@ -70,6 +70,7 @@
                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                 <span class="hidden-sm-down"></span>
                             </button>
+                            </span>
                         </div>
                     </td>
                 </tr>
