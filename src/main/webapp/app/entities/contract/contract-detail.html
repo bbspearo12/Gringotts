@@ -21,12 +21,9 @@
             <a ui-sref="company-detail({id:vm.contract.company.id})">{{vm.contract.company.name}}</a>
         </dd>
     </dl>
-
-    <button type="submit"
-            ui-sref="{{ vm.previousState }}"
-            class="btn btn-info">
-        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
-    </button>
+	<button onclick="history.back()" class="btn btn-info">
+	        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+	</button>
 
     <button type="button" has-authority="ROLE_ADMIN" ui-sref="contract-detail.edit({id:vm.contract.id})" class="btn btn-primary">
         <span class="glyphicon glyphicon-pencil"></span>

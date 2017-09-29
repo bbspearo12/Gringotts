@@ -1,0 +1,40 @@
+{
+  "name": "angular-history-back",
+  "description": "Angular 1.x wrapper directive for window.history.back()",
+  "version": "1.1.0",
+  "authors": [
+    "Joe Downie"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "angular",
+    "ui-router",
+    "ui",
+    "router",
+    "window history",
+    "window",
+    "history",
+    "state",
+    "params",
+    "back"
+  ],
+  "homepage": "https://github.com/jvdownie/angular-history-back",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {},
+  "_release": "1.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.1.0",
+    "commit": "00fc2ecbac5165a0575ec7f7f7bef02c1c7932d2"
+  },
+  "_source": "https://github.com/jvdownie/angular-history-back.git",
+  "_target": "^1.1.0",
+  "_originalSource": "angular-history-back",
+  "_direct": true
+}
