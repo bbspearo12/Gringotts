@@ -177,7 +177,11 @@ public class CompanyResource {
 		}
 		log.debug("Returning json array of assets: {}", ja);
 		String csv = CDL.toString(ja);
-		response.getOutputStream().write(csv.getBytes(Charset.forName("UTF-8")));
+		if (csv != null) {
+			response.getOutputStream().write(csv.getBytes(Charset.forName("UTF-8")));
+		} else {
+			ResponseUtil.wrapOrNotFound(Optional.ofNullable(assets));
+		}
 	}
 
 
