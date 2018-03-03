@@ -28,9 +28,27 @@
                     </div>
                 </form>
             </div>
+          
         </div>
     </div>
     <br/>
+    <br/>
+    <div class="container-fluid">
+	<div class="row">
+		<table class="jh-table table table-striped">
+			<thead>        				
+			<tr>
+		     	<th>Export data for companies selected
+		     	<button type="submit" style="float: right;" class="btn btn-primary btn-sm" ng-click="exportData()"> 
+		     		<span class="glyphicon glyphicon-export"></span>
+		     	</button>
+		     	</th>
+		     </tr>
+		     </thead>
+	     </table>
+    </div>
+    </div>
+    
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
@@ -43,6 +61,7 @@
                     <th><span>Phone Number</span></th>
                     <th><span>Email</span></th>
                     <th><span>Zip</span></th>
+                    <th><span>Export Data</span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -56,6 +75,7 @@
                     <td>{{company.phoneNumber}}</td>
                     <td>{{company.email}}</td>
                     <td>{{company.zip}}</td>
+                    <td><input type="checkbox" ng-model="selected[company.id]"></td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
@@ -81,7 +101,7 @@
                         </div>
                     </td>
                 </tr>
-            </tbody>
+            </tbody>            
         </table>
     </div>
 </div>

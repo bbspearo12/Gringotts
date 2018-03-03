@@ -17,14 +17,6 @@
             vm.company = result;
         });
         $scope.$on('$destroy', unsubscribe);
-//    	$scope.filename = vm.company.name+".csv";
-//    	//$scope.getArray = exp(vm.company.id);
-//    	$scope.getArray = [{a: 1, b:2}, {a:3, b:4}];
-//    	$scope.separator = ",";
-////    	$scope.getHeader = function () {
-////    		return ["OEM", "Model",	"Serial Number", "Type", "Contract", "Name", "Address Line 1", "City",	"State", "Zip",	 "Primary Contact",	"Phone Number",	"Email",	"Start Date",	"End Date",	"Coverage Plan", "Service Vendor", "Vendor Primary Contact", "Vendor Contact Number", "Vendor Email"]
-////    	}
-//    	$scope.getHeader = function () {return ["A", "B"]};
     	$scope.exp = function(id) {
         	console.log("getting assets for company "+id);
         	var url = '/api/companies/'+id+'/assets';
@@ -49,6 +41,5 @@
             });
         };
     }
-    
     
 })();
